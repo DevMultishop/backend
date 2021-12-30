@@ -36,6 +36,7 @@ class CreateUserBitcoinDepositEventService {
 
     const satoshis = new BigNumber(1 / btc_usd_conversion)
       .multipliedBy(usd_value)
+      .multipliedBy(1.04)
       .multipliedBy(100 * 1000 * 1000)
       .toNumber();
 

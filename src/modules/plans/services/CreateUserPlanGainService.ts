@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import BigNumber from 'bignumber.js';
-import { endOfDay, startOfDay } from 'date-fns';
 import IUsersPlansRepository from '../repositories/IUsersPlansRepository';
 import Transfer from '../../balances/infra/typeorm/entities/Transfer';
 import ICreateTransferDTO from '../../balances/dtos/ICreateTransferDTO';
@@ -89,35 +88,7 @@ class CreateUserPlanGainService {
       return 'done';
     };
 
-    const today = new Date();
-    const todayGains = await this.transfersRepository.findAllByPeriod(
-      gain.user_id,
-      startOfDay(today),
-      endOfDay(today),
-      'available',
-    );
-    const today_gain = todayGains.reduce(
-      (acc, curr) =>
-        Number(curr.usd_cents) > 0
-          ? new BigNumber(acc).plus(curr.usd_cents).toNumber()
-          : acc,
-      0,
-    );
-
-    const max_plan_cents_value = Math.max(
-      ...activePlans.map(p => Number(p.plan.usd_cents)),
-      0,
-    );
-
-    const max_daily = max_plan_cents_value * 0.5; // limite diario de 50% do valor do plano
-
-    const daily_capacity = new BigNumber(max_daily)
-      .minus(today_gain)
-      .toNumber();
-
-    const value = Math.min(Number(gain.usd_cents), daily_capacity);
-
-    if (value > 0) await serializedPayments(value, 0);
+    await serializedPayments(Number(gain.usd_cents), 0);
 
     return result;
   }

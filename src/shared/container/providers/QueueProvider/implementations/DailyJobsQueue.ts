@@ -4,7 +4,6 @@ import { container, injectable } from 'tsyringe';
 import CreateTransfersFromIncomeToAvailableService from '../../../../../modules/balances/services/CreateTransfersFromIncomeToAvailableService';
 import CheckWithdrawalOpenService from '../../../../../modules/bitcoin/services/CheckWithdrawalOpenService';
 import CreatePlanDailyIncomePaymentsService from '../../../../../modules/plans/services/CreatePlanDailyIncomePaymentsService';
-import CreateDailyBinaryPaymentsService from '../../../../../modules/binary/services/CreateDailyBinaryPaymentsService';
 import redisConfig from '../../../../../config/redis';
 import IQueue from '../models/IQueue';
 
@@ -39,7 +38,6 @@ class DailyJobsQueue implements IQueue {
 
   private process = async (job: Job): Promise<string> => {
     try {
-      await container.resolve(CreateDailyBinaryPaymentsService).execute();
       await container.resolve(CreatePlanDailyIncomePaymentsService).execute();
 
       const isWithdrawalOpen = await container

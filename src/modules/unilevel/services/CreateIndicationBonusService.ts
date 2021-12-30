@@ -6,7 +6,6 @@ import IUnilevelNodesRepository from '../repositories/IUnilevelNodesRepository';
 interface IParams {
   user_id: string;
   usd_cents: number;
-  // plan_id: string;
 }
 
 @injectable()
@@ -19,21 +18,30 @@ class CreateIndicationBonusService {
   public async execute({
     user_id,
     usd_cents,
-  }: // plan_id,
-  IParams): Promise<ICreateTransferDTO[]> {
+  }: IParams): Promise<ICreateTransferDTO[]> {
     const result: ICreateTransferDTO[] = [];
-    // const plan = await this.plansRepository.findById(plan_id);
-    // if (!plan) return result;
-    const userNode = await this.unilevelNodesRepository.findByUserId(user_id);
+    let userNode = await this.unilevelNodesRepository.findByUserId(user_id);
     if (!userNode) return result;
 
-    const { indicator_id } = userNode;
+    let { indicator_id } = userNode;
 
     result.push({
       card: 'available',
       user_id: indicator_id,
       description: 'Direct Indication Bonus',
       usd_cents: new BigNumber(usd_cents).multipliedBy(0.1).toNumber(),
+    });
+
+    userNode = await this.unilevelNodesRepository.findByUserId(indicator_id);
+    if (!userNode) return result;
+
+    indicator_id = userNode.indicator_id;
+
+    result.push({
+      card: 'available',
+      user_id: indicator_id,
+      description: 'Indirect Indication Bonus',
+      usd_cents: new BigNumber(usd_cents).multipliedBy(0.05).toNumber(),
     });
 
     return result;

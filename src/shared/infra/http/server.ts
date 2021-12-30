@@ -25,9 +25,7 @@ const main = async () => {
   });
 
   app.listen(3333, () =>
-    console.log(
-      `${new Date().toISOString()} | Server listenning on port 3333!`,
-    ),
+    console.log(`${new Date().toISOString()} | App listenning on port 3333!`),
   );
 };
 

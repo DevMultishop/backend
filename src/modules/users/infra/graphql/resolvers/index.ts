@@ -3,7 +3,6 @@ import ProfileResolver from './ProfileResolver';
 import BitcoinResolver from './BitcoinResolver';
 import BalancesResolver from './BalancesResolver';
 import PlansResolver from './PlansResolver';
-import BinaryResolver from './BinaryResolver';
 import ChartsResolver from './ChartsResolver';
 import WithdrawalResolver from './WithdrawalResolver';
 import StatmentResolver from './StatmentResolver';
@@ -13,7 +12,6 @@ export default [
   StatmentResolver,
   WithdrawalResolver,
   ChartsResolver,
-  BinaryResolver,
   SignupResolver,
   ProfileResolver,
   BitcoinResolver,
