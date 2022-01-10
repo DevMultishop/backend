@@ -24,5 +24,9 @@ class FakeUnilevelNodesRepository implements IUnilevelNodesRepository {
   ): Promise<UnilevelNode | undefined> {
     return this.nodes.find(node => node.user_id === user_id);
   }
+
+  public async findAllByIndicatorId(): Promise<UnilevelNode[]> {
+    return [];
+  }
 }
 export default FakeUnilevelNodesRepository;
