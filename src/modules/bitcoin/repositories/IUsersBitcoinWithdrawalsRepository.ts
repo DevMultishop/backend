@@ -15,4 +15,5 @@ export default interface IUsersBitcoinWithdrawalsRepository {
   ): Promise<UserBitcoinWithdrawal[]>;
   findPending(): Promise<UserBitcoinWithdrawal[]>;
   findPendingByIds(isd: string[]): Promise<UserBitcoinWithdrawal[]>;
+  findConfirmedByIds(isd: string[]): Promise<UserBitcoinWithdrawal[]>;
 }

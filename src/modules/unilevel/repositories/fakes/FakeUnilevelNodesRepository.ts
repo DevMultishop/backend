@@ -28,5 +28,9 @@ class FakeUnilevelNodesRepository implements IUnilevelNodesRepository {
   public async findAllByIndicatorId(): Promise<UnilevelNode[]> {
     return [];
   }
+
+  public async findAllIndicateds(): Promise<number> {
+    return 2;
+  }
 }
 export default FakeUnilevelNodesRepository;

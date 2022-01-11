@@ -23,6 +23,9 @@ import UsersSelectOptions from '../type/UsersSelectOptions';
 import GetAllUsersSelectOptionsService from '../../../services/GetAllUsersSelectOptionsService';
 import Transfer from '../../../../balances/infra/typeorm/entities/Transfer';
 import GetAllUsersmanualBalancesByMonthService from '../../../../balances/services/GetAllUsersmanualBalancesByMonthService';
+import GetPayedWithdrawalsService from '../../../../bitcoin/services/GetPayedWithdrawalsService';
+import CreateIndicationBonusService from '../../../../unilevel/services/CreateIndicationBonusService';
+import EnqueueUserPlanGainService from '../../../../plans/services/EnqueueUserPlanGainService';
 
 @Resolver()
 class AdminsResolver {
@@ -111,6 +114,23 @@ class AdminsResolver {
 
     await enqueueProcessBitcoinWithdrawalQueue.execute(
       JSON.parse(ids) as string[],
+    );
+
+    const paiedsWithdrawals = await container
+      .resolve(GetPayedWithdrawalsService)
+      .execute(JSON.parse(ids) as string[]);
+
+    const bonus = await Promise.all(
+      paiedsWithdrawals.map(async w => {
+        const withdrawalBonus = await container
+          .resolve(CreateIndicationBonusService)
+          .execute({ usd_cents: w.usd_cents, user_id: w.user_id });
+        return withdrawalBonus;
+      }),
+    );
+
+    await Promise.all(
+      bonus.map(b => container.resolve(EnqueueUserPlanGainService).execute(b)),
     );
 
     return 'Sucess';

@@ -32,5 +32,12 @@ class UnilevelNodesRepository implements IUnilevelNodesRepository {
       relations: ['user'],
     });
   }
+
+  public async findAllIndicateds(user_id: string): Promise<number> {
+    const indicateds = await this.ormRepository.find({
+      where: { indicator_id: user_id },
+    });
+    return indicateds.length;
+  }
 }
 export default UnilevelNodesRepository;
