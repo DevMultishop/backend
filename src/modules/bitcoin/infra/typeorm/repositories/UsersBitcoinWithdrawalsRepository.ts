@@ -1,4 +1,4 @@
-import { getRepository, In, IsNull } from 'typeorm';
+import { getRepository, In, IsNull, Not } from 'typeorm';
 import ICreateUserBitcoinWithdrawalDTO from '../../../dtos/ICreateUserBitcoinWithdrawalDTO';
 import IUsersBitcoinWithdrawalsRepository from '../../../repositories/IUsersBitcoinWithdrawalsRepository';
 import UserBitcoinWithdrawal from '../entities/UserBitcoinWithdrawal';
@@ -61,6 +61,19 @@ class UsersBitcoinWithdrawalsRepository
       },
     });
   }
+
+  public async findConfirmedByIds(
+    ids: string[],
+  ): Promise<UserBitcoinWithdrawal[]> {
+    if (ids.length === 0) return [];
+    return this.ormRepository.find({
+      where: {
+        txid: Not(null),
+        id: In(ids),
+      },
+    });
+  }
+
 
   public async findPending(): Promise<UserBitcoinWithdrawal[]> {
     return this.ormRepository.find({

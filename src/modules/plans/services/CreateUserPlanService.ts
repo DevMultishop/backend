@@ -32,20 +32,24 @@ class CreateUserPlanService {
 
     let upgrade_discount = 0;
 
-    if (ownedUserPlan) {
-      const ownedPlan = await this.plansRepository.findById(
-        ownedUserPlan.plan_id,
-      );
-      if (!ownedPlan) throw new Error('Plan not found');
-      if (
-        new BigNumber(ownedPlan.usd_cents).isGreaterThanOrEqualTo(
-          plan.usd_cents,
-        )
-      )
-        throw new Error('You can not buy a cheaper plan');
-
-      upgrade_discount = ownedPlan.usd_cents;
+    if(ownedUserPlan){
+      throw new Error('You can not buy a new plan');
     }
+
+    // if (ownedUserPlan) {
+    //   const ownedPlan = await this.plansRepository.findById(
+    //     ownedUserPlan.plan_id,
+    //   );
+    //   if (!ownedPlan) throw new Error('Plan not found');
+    //   if (
+    //     new BigNumber(ownedPlan.usd_cents).isGreaterThanOrEqualTo(
+    //       plan.usd_cents,
+    //     )
+    //   )
+    //     throw new Error('You can not buy a cheaper plan');
+
+    //   upgrade_discount = ownedPlan.usd_cents;
+    // }
 
     const creditWithdrawalCents = new BigNumber(plan.usd_cents)
       .minus(upgrade_discount)
@@ -74,13 +78,13 @@ class CreateUserPlanService {
       .multipliedBy(2)
       .toNumber();
 
-    if (ownedUserPlan) {
-      ownedUserPlan.plan_id = plan_id;
-      ownedUserPlan.limit_usd_cents = Math.round(limit_usd_cents);
-      await this.usersPlansRepository.save(ownedUserPlan);
+    // if (ownedUserPlan) {
+    //   ownedUserPlan.plan_id = plan_id;
+    //   ownedUserPlan.limit_usd_cents = Math.round(limit_usd_cents);
+    //   await this.usersPlansRepository.save(ownedUserPlan);
 
-      return creditWithdrawalCents;
-    }
+    //   return creditWithdrawalCents;
+    // }
 
     await this.usersPlansRepository.create({
       user_id,

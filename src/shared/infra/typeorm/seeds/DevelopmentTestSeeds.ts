@@ -55,12 +55,12 @@ const doMigrations = async (): Promise<void> => {
   await connection.undoLastMigration();
   await connection.undoLastMigration();
 
-  await connection.undoLastMigration();
-  await connection.undoLastMigration();
-  await connection.undoLastMigration();
-  await connection.undoLastMigration();
-  await connection.undoLastMigration();
-  await connection.undoLastMigration();
+  // await connection.undoLastMigration();
+  // await connection.undoLastMigration();
+  // await connection.undoLastMigration();
+  // await connection.undoLastMigration();
+  // await connection.undoLastMigration();
+  // await connection.undoLastMigration();
 
   console.log(await connection.runMigrations());
 };
