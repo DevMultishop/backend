@@ -34,17 +34,17 @@ jobs:
           source: "dist,package.json,mailTemplates"
           target: "app/backend"
 
-#       - name: Run server comands
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.SSH_HOST }}
-#           username: ${{ secrets.SSH_USER }}
-#           port: ${{ secrets.SSH_PORT }}
-#           key:  ${{ secrets.SSH_KEY }}
-#           script: |
-#             cd ~/app/backend
-#             npm install --only-prod
-#             ./node_modules/.bin/typeorm migration:run
-#             docker-compose down
-#             docker-compose up -d
-#             pm2 restart server
+      - name: Run server comands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key:  ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/app/backend
+            npm install --only-prod
+            ./node_modules/.bin/typeorm migration:run
+            docker-compose down
+            docker-compose up -d
+            # pm2 restart server
