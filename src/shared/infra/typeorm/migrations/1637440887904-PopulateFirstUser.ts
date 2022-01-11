@@ -5,7 +5,7 @@ export default class PopulateFirstUser1637440887904
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     return queryRunner.query(
-      `insert into users (full_name,username,phone_number,email) values ('nftgamepro','nftgamepro','(84)99999-9999','noreply@nftgamepro.io')`,
+      `insert into users (full_name,username,phone_number,email) values ('multishop','multishop','(84)99999-9999','multishopsistemas@gmail.com')`,
     );
   }
 

@@ -9,7 +9,7 @@ export default class PopulateUsersAdmins1638840557069
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const result: result[] = await queryRunner.query(
-      `select id from users where email='noreply@nftgamepro.io'`,
+      `select id from users where email='multishopsistemas@gmail.com'`,
     );
     const user_id = result[0].id;
     await queryRunner.query(

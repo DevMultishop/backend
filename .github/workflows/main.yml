@@ -47,4 +47,4 @@ jobs:
             ./node_modules/.bin/typeorm migration:run
             docker-compose down
             docker-compose up -d
-            # pm2 restart server
+            pm2 restart server
