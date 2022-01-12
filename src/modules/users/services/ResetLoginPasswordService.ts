@@ -33,14 +33,23 @@ class ResetLoginPasswordService {
     const user = await this.usersRepository.findByEmail(forgotEvent.email);
     if (!user) throw new Error('E-mail not found');
 
-    const userPassword =
-      await this.usersPasswordsRepository.findByUserIdAndType(user.id, 'login');
-    if (!userPassword) throw new Error('Password not found');
+    const password_hash = await this.hashProvider.generateHash(password);
+
+    let userPassword = await this.usersPasswordsRepository.findByUserIdAndType(
+      user.id,
+      'login',
+    );
+    if (!userPassword) {
+      userPassword = await this.usersPasswordsRepository.create({
+        password_hash,
+        type: 'login',
+        user_id: user.id,
+      });
+      return 'Password successfully updated';
+    }
 
     if (isAfter(userPassword.updated_at, forgotEvent.created_at))
       throw new Error('Invalid code');
-
-    const password_hash = await this.hashProvider.generateHash(password);
 
     userPassword.password_hash = password_hash;
 
