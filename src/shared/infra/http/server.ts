@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import { ApolloServer } from 'apollo-server-express';
-
+import { graphqlUploadExpress } from 'graphql-upload';
 import app from './app';
 
 import createSchema from '../graphql/Schema';
 import { createContext as context } from '../graphql/Context';
+
+app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
 
 const main = async () => {
   const apolloServer = new ApolloServer({

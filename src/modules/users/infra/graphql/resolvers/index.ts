@@ -8,6 +8,7 @@ import WithdrawalResolver from './WithdrawalResolver';
 import StatmentResolver from './StatmentResolver';
 import AdminsResolver from './AdminsResolvers';
 import UnilevelResolver from './UnilevelResolver';
+import BankDepositResolver from './BankDepositResolver';
 
 export default [
   UnilevelResolver,
@@ -20,4 +21,5 @@ export default [
   BalancesResolver,
   PlansResolver,
   AdminsResolver,
+  BankDepositResolver,
 ];
